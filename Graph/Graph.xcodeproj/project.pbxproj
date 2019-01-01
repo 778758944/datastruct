@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		72B5E68421D65FCD0035FABE /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 72B5E68321D65FCD0035FABE /* main.c */; };
 		72B5E68C21D65FF20035FABE /* Graph.c in Sources */ = {isa = PBXBuildFile; fileRef = 72B5E68B21D65FF20035FABE /* Graph.c */; };
+		72FE6DB121D7C49C0044F8E9 /* Queue.c in Sources */ = {isa = PBXBuildFile; fileRef = 72FE6DB021D7C49C0044F8E9 /* Queue.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		72B5E68321D65FCD0035FABE /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		72B5E68A21D65FF20035FABE /* Graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graph.h; sourceTree = "<group>"; };
 		72B5E68B21D65FF20035FABE /* Graph.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Graph.c; sourceTree = "<group>"; };
+		72FE6DAF21D7C49C0044F8E9 /* Queue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
+		72FE6DB021D7C49C0044F8E9 /* Queue.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Queue.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 				72B5E68321D65FCD0035FABE /* main.c */,
 				72B5E68A21D65FF20035FABE /* Graph.h */,
 				72B5E68B21D65FF20035FABE /* Graph.c */,
+				72FE6DAF21D7C49C0044F8E9 /* Queue.h */,
+				72FE6DB021D7C49C0044F8E9 /* Queue.c */,
 			);
 			path = Graph;
 			sourceTree = "<group>";
@@ -123,6 +128,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72FE6DB121D7C49C0044F8E9 /* Queue.c in Sources */,
 				72B5E68C21D65FF20035FABE /* Graph.c in Sources */,
 				72B5E68421D65FCD0035FABE /* main.c in Sources */,
 			);
