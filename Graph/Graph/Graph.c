@@ -87,7 +87,7 @@ void createAlGraph(GraphAdjList * G) {
 
 void MDfs(MGraph G, int i) {
     visited[i] = true;
-    printf("%c\n", G.vexs[i]);
+    printf("%d\n", G.vexs[i]);
     for (int j = 0; j < G.numVectexes; j++) {
         if (G.arc[i][j] != INFINITY && !visited[j]) MDfs(G, j);
     }
@@ -103,10 +103,29 @@ void M_DFS_TRAVERSE(MGraph G) {
     }
 }
 
+void MDFS2(MGraph G, int i) {
+    visited[i] = true;
+    printf("%d\n", G.vexs[i]);
+    for (int j = 0; j < G.numVectexes; j++) {
+        if (G.arc[i][j] < INFINITY && !visited[j]) MDFS2(G, j);
+    }
+}
+
+void M_DFS_TRAVERSE2(MGraph G) {
+    int len = G.numVectexes;
+    for (int i = 0; i < len; i++) {
+        visited[i] = false;
+    }
+    
+    for (int i = 0; i < len; i++) {
+        if (!visited[i]) MDFS2(G, i);
+    }
+}
+
 void AdjDfs(GraphAdjList G, int i) {
     visited[i] = true;
     VertexNode node = G.adjList[i];
-    printf("%c\n", node.data);
+    printf("%d\n", node.data);
     EdgeNode * edge = node.firstEdge;
     while (edge) {
         if (!visited[edge->adjvex]) AdjDfs(G, edge->adjvex);
@@ -139,7 +158,7 @@ void M_BFS_TRAVERSE(MGraph G) {
                 int index;
                 DeQueue(&Q, &index);
                 visited[index] = true;
-                printf("%c\n", G.vexs[index]);
+                printf("%d\n", G.vexs[index]);
                 for (int j = 0; j < G.numVectexes; j++) {
                     if (G.arc[index][j] != INFINITY && !visited[j]) {
                         EnQueue(&Q, j);
@@ -148,6 +167,33 @@ void M_BFS_TRAVERSE(MGraph G) {
             }
         }
     }
+}
+
+void M_BFS_TRAVERSE2(MGraph G) {
+    Queue q;
+    initQueue(&q);
+    for (int i = 0; i < G.numVectexes; i++) {
+        visited[i] = false;
+    }
+    for (int i = 0; i < G.numVectexes; i++) {
+        if (!visited[i]) {
+            visited[i] = true;
+            printf("%d\n", G.vexs[i]);
+            EnQueue(&q, i);
+            while (!QueueEmpty(&q)) {
+                int t;
+                DeQueue(&q, &t);
+                for (int j = 0; j < G.numVectexes; j++) {
+                    if (G.arc[t][j] < INFINITY && !visited[j]) {
+                        printf("%d\n", G.vexs[j]);
+                        visited[j] = true;
+                        EnQueue(&q, j);
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 void ADJ_BFS_TRAVERSE(GraphAdjList G) {
@@ -166,7 +212,7 @@ void ADJ_BFS_TRAVERSE(GraphAdjList G) {
                 int index;
                 DeQueue(&Q, &index);
                 VertexNode node = G.adjList[index];
-                printf("%c\n", node.data);
+                printf("%d\n", node.data);
                 EdgeNode * temp = node.firstEdge;
                 while (temp) {
                     if (!visited[temp->adjvex]) {
@@ -261,6 +307,48 @@ void MiniSpanTree_Prim2(MGraph G) {
     }
     
     printf("all sum is %d\n", all);
+}
+
+void MiniSpanTree_Prim3(MGraph G) {
+    int len = G.numVectexes;
+    int adjvex[len];
+    int lowcost[len];
+    adjvex[0] = 0;
+    lowcost[0] = 0;
+    int sum = 0;
+    
+    for (int i = 1; i < len; i++) {
+        lowcost[i] = G.arc[0][i];
+        adjvex[i] = 0;
+    }
+    
+    for (int i = 1; i < len; i++) {
+        int min = INFINITY,
+            j = 1,
+            k = 0;
+        
+        while (j < len) {
+            if (lowcost[j] != 0 && lowcost[j] < min) {
+                min = lowcost[j];
+                k = j;
+            }
+            j++;
+        }
+        
+        printf("from %d to %d\n", adjvex[k], k);
+        sum += G.arc[adjvex[k]][k];
+        lowcost[k] = 0;
+        for (j = 1; j < len; j++) {
+            if (lowcost[j] != 0 && G.arc[k][j] < lowcost[j]) {
+                lowcost[j] = G.arc[k][j];
+                adjvex[j] = k;
+            }
+        }
+    }
+    
+    printf("sum = %d\n", sum);
+    
+    
 }
 
 
@@ -358,6 +446,40 @@ void ShortestPath_Dijkstra2(MGraph G, int index, Patharc P, ShortPathTable D) {
         
     }
     
+}
+
+void ShortestPath_Dijkstra3(MGraph G, int v, int * D, int * P) {
+    int len = G.numVectexes;
+    int final[len];
+    for (int i = 0; i < len; i++) {
+        final[i] = 0;
+        D[i] = G.arc[v][i];
+        P[i] = 0;
+    }
+    
+    final[v] = 1;
+    D[v] = 0;
+    
+    for (int j = 1; j < len; j++) {
+        int min = INFINITY, k = v;
+        
+        for (int x = 0; x < len; x++) {
+            if (final[x] != 1 && D[x] < min) {
+                min = D[x];
+                k = x;
+            }
+        }
+        
+        final[k] = 1;
+        
+        for (int x = 0; x < len; x++) {
+            if (final[x] != 1 && min + G.arc[k][x] < D[x]) {
+                D[x] = min + G.arc[k][x];
+                P[x] = k;
+            }
+        }
+        
+    }
 }
 
 
@@ -503,6 +625,90 @@ void CriticalPath(GraphAdjList * G) {
     
     
 }
+
+
+void ADJ_DFS_HELPER(GraphAdjList G, int i) {
+    VertexNode node = G.adjList[i];
+    printf("%d\n", node.data);
+    visited[i] = true;
+    EdgeNode * edge = node.firstEdge;
+    while (edge != NULL) {
+        if (!visited[edge->adjvex]) {
+            ADJ_DFS_HELPER(G, edge->adjvex);
+        }
+        edge = edge->next;
+    }
+}
+
+
+void ADJ_DFS_TRAVERSE2(GraphAdjList G) {
+    printf("\n\n");
+    int len = G.numVertexes;
+    for (int i = 0; i < len; i++) {
+        visited[i] = false;
+    }
+    
+    for (int i = 0; i < len; i++) {
+        if (!visited[i]) {
+            ADJ_DFS_HELPER(G, i);
+        }
+    }
+}
+
+void ADJ_BFS_TRAVERSE2(GraphAdjList G) {
+    printf("\n\n");
+    int len = G.numVertexes;
+    for (int i = 0; i < len; i++) {
+        visited[i] = false;
+    }
+    
+    for (int i = 0; i < len; i++) {
+        if (!visited[i]) {
+            VertexNode node = G.adjList[i];
+            printf("%d\n", node.data);
+            visited[i] = true;
+            EdgeNode * edge = node.firstEdge;
+            while (edge) {
+                if (!visited[edge->adjvex]) {
+                    printf("%d\n", G.adjList[edge->adjvex].data);
+                    visited[edge->adjvex] = true;
+                }
+                edge = edge->next;
+            }
+        }
+    }
+}
+
+bool Toplogical_Sort3(GraphAdjList G) {
+    int len = G.numVertexes,
+        count = 0;
+    Queue q;
+    initQueue(&q);
+    
+    for (int i = 0; i < len; i++) {
+        if (G.adjList[i].ind == 0) {
+            EnQueue(&q, i);
+        }
+    }
+    
+    while (!QueueEmpty(&q)) {
+        int index;
+        EdgeNode * e;
+        DeQueue(&q, &index);
+        VertexNode node = G.adjList[index];
+        count++;
+//        printf("%d\n", node.data);
+        for (e = node.firstEdge; e != NULL; e = e->next) {
+            if ((--G.adjList[e->adjvex].ind) == 0) {
+                EnQueue(&q, e->adjvex);
+            }
+        }
+    }
+    
+    return count == len;
+}
+
+
 
 
 

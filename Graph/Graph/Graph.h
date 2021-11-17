@@ -9,6 +9,7 @@
 #ifndef MGraph_h
 #define MGraph_h
 #include <stdbool.h>
+#include <stdio.h>
 #define MAXVEX 100
 #define INFINITY 65535
 
@@ -79,6 +80,15 @@ bool ToplogicalSort(GraphAdjList * G);
 bool ToplogicalSort2(GraphAdjList * G);
 
 void CriticalPath(GraphAdjList * G);
+
+// review1
+void M_DFS_TRAVERSE2(MGraph G);
+void M_BFS_TRAVERSE2(MGraph G);
+void MiniSpanTree_Prim3(MGraph G);
+void ShortestPath_Dijkstra3(MGraph G, int v, int * D, int * P);
+void ADJ_DFS_TRAVERSE2(GraphAdjList G);
+void ADJ_BFS_TRAVERSE2(GraphAdjList G);
+bool Toplogical_Sort3(GraphAdjList G);
 
 
 
